@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">RARE</string>
+
+    <string-array name="shopping_item">
+        <item>Screen</item>
+        <item>Battery</item>
+        <item>Power Button</item>
+        <item>Camera</item>
+        <item>Software</item>
+        <item>Volume Button</item>
+        <item>mice</item>
+        <item>speaker</item>
+    </string-array>
+</resources>
