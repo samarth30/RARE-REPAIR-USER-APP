@@ -1,15 +1,17 @@
 package com.example.dell.rare.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.example.dell.rare.R;
-import com.example.dell.rare.helper.ScrollHandler;
+import com.example.dell.rare.helper.BottomNavigationViewHelper;
 import com.example.dell.rare.home.HomeFragment;
 import com.example.dell.rare.orders.OrderFragment;
 import com.example.dell.rare.dashboard.Dashboard;
+import com.example.dell.rare.utils.ViewAnimation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -36,9 +38,14 @@ public class Master extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
 
+
+        if (!SharedPrefManager.getInstance(this).isLoggedIn()) {
+            finish();
+            startActivity(new Intent(this, Login.class));
+        }
+
         final BottomNavigationView mMainNav = findViewById(R.id.nav_view);
-
-
+        BottomNavigationViewHelper.disableShiftMode(mMainNav);
         mMainFrame = (FrameLayout)findViewById(R.id.nav_host_fragment);
         homeFragment = new HomeFragment();
         dashboardFrament = new Dashboard();
@@ -54,14 +61,17 @@ public class Master extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         setFragment(homeFragment);
+                        ViewAnimation.fadeOutIn(mMainFrame);
                         return true;
 
                     case R.id.navigation_orders:
                         setFragment(orderFragment);
+                        ViewAnimation.fadeOutIn(mMainFrame);
                         return true;
 
                     case R.id.navigation_dashboard:
                         setFragment(dashboardFrament);
+                        ViewAnimation.fadeOutIn(mMainFrame);
                         return true;
                     default:
                         return false;

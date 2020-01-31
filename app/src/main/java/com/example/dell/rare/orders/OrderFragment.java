@@ -29,6 +29,7 @@ import com.example.dell.rare.UI.Firstpage;
 import com.example.dell.rare.UI.SharedPrefManager;
 import com.example.dell.rare.classes.ExampleItemVerticle;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,6 +68,16 @@ public class OrderFragment extends Fragment {
         adapter = new ExampleAdapter(getContext(), (ArrayList<ExampleItemVerticle>) list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+
+//        PushDownAnim.setPushDownAnimTo( recyclerView )
+//                .setOnClickListener( new View.OnClickListener(){
+//                    @Override
+//                    public void onClick( View view ){
+//
+//                    }
+//
+//                } );
+
         return view;
     }
 

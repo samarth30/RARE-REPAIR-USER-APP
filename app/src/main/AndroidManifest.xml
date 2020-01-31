@@ -14,18 +14,25 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".UI.Master"
-            android:label="@string/title_activity_master"></activity>
-        <activity
-            android:name=".UI.signup"
-            android:screenOrientation="userPortrait"></activity>
-        <activity android:name=".UI.Login">
+            android:label="@string/title_activity_master">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.animation" />
+        <activity
+            android:name=".UI.signup"
+            android:screenOrientation="userPortrait">
+
+        </activity>
+        <activity android:name=".UI.Login">
+
+        </activity>
+        <activity android:name=".UI.animation" >
+
+        </activity>
         <activity
             android:name=".UI.Color"
             android:screenOrientation="userPortrait" />

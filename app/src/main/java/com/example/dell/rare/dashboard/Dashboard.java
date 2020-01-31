@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.dell.rare.R;
 import com.example.dell.rare.R.*;
 import com.example.dell.rare.UI.SharedPrefManager;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 
 public class Dashboard extends Fragment {
@@ -38,15 +40,30 @@ public class Dashboard extends Fragment {
         textView.setText(email);
 
         Button Log_out = (Button) view.findViewById(R.id.log_out);
-        Log_out.setOnClickListener(new View.OnClickListener() {
+
+        PushDownAnim.setPushDownAnimTo( Log_out )
+        .setOnClickListener( new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick( View view ){
                 SharedPrefManager.getInstance(context).logout();
 
                 getActivity().finishAffinity();
 
             }
-        });
+
+        } );
+
+
+
+//        Log_out.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SharedPrefManager.getInstance(context).logout();
+//
+//                getActivity().finishAffinity();
+//
+//            }
+//        });
 
         return  view;
     }

@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -19,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.dell.rare.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
@@ -31,8 +34,10 @@ public class Login extends AppCompatActivity {
 
     TextInputLayout number_layout;
     TextInputLayout name_layout,password_layout;
-    Button login,signup;
+    FloatingActionButton login;
+    TextView signup;
     RequestQueue requestQueue;
+    AutoCompleteTextView number_auto,password_auto;
     public static String TokenFinal;
     String loginapi = "https://samarth-rare-app.herokuapp.com/users/login";
 
@@ -44,9 +49,11 @@ public class Login extends AppCompatActivity {
 
         if (SharedPrefManager.getInstance(this).isLoggedIn()) {
             finish();
-            startActivity(new Intent(Login.this, Master.class));
-        } else {
+            startActivity(new Intent(this, Master.class));
+        }
 
+            password_auto = findViewById(R.id.password_auto);
+            number_auto = findViewById(R.id.number_auto);
             number_layout = findViewById(R.id.text_input_number);
             loading = findViewById(R.id.loading_login);
             signup = findViewById(R.id.signup_button);
@@ -66,19 +73,19 @@ public class Login extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     loading.setVisibility(View.VISIBLE);
-                    login.setVisibility(View.GONE);
+                    login.setAlpha(0f);
                     if (validateNumber() && validatePassword()) {
-                        number_layout.setErrorEnabled(false);
-                        password_layout.setErrorEnabled(false);
+                        number_auto.setError(null);
+                        password_auto.setError(null);
                         Loginuser(number_layout.getEditText().getText().toString(), password_layout.getEditText().getText().toString());
                     } else {
                         loading.setVisibility(View.GONE);
-                        login.setVisibility(View.VISIBLE);
+                        login.setAlpha(1f);
                         Toast.makeText(Login.this, "please fill all the details correctly", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-        }
+
     }
     private void Loginuser(final String number, final String password) {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, loginapi, new Response.Listener<String>() {
@@ -96,13 +103,13 @@ public class Login extends AppCompatActivity {
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(token,number);
 
                             loading.setVisibility(View.GONE);
-                            login.setVisibility(View.VISIBLE);
-                            startActivity(new Intent(Login.this, Master.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            login.setAlpha(1f);
+                            startActivity(new Intent(Login.this, Master.class));
                             finish();
 
                         } else {
                             loading.setVisibility(View.GONE);
-                            login.setVisibility(View.VISIBLE);
+                            login.setAlpha(1f);
                             Toast.makeText(Login.this, "Authentication Failed!", Toast.LENGTH_SHORT).show();
                         }
 
@@ -110,7 +117,7 @@ public class Login extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                         loading.setVisibility(View.GONE);
-                        login.setVisibility(View.VISIBLE);
+                        login.setAlpha(1f);
                         Toast.makeText(Login.this, "Authentication Failed!", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -119,7 +126,7 @@ public class Login extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(Login.this, "please check your internet connection", Toast.LENGTH_SHORT).show();
                     loading.setVisibility(View.GONE);
-                    login.setVisibility(View.VISIBLE);
+                    login.setAlpha(1f);
                 }
             }) {
                 @Override
@@ -152,13 +159,13 @@ public class Login extends AppCompatActivity {
         String number = number_layout.getEditText().getText().toString().trim();
 
         if(number.isEmpty()){
-            number_layout.setError("Field can't be empty");
+            number_auto.setError("Field can't be empty");
             return false;
         }else if(number.length() < 10){
-            number_layout.setError("Phone number not valid");
+            number_auto.setError("Phone number not valid");
             return false;
         }else if(number.length() >=11){
-            number_layout.setError("Phone number not valid");
+            number_auto.setError("Phone number not valid");
             return false;
         }
         else{
@@ -181,9 +188,14 @@ public class Login extends AppCompatActivity {
         String name = password_layout.getEditText().getText().toString().trim();
 
         if(name.isEmpty()){
-            password_layout.setError("Field can't be empty");
+            password_auto.setError("Field can't be empty");
             return false;
-        }else{
+        }
+        else if(name.length() < 6){
+            password_auto.setError("password should be atleast 6 words");
+            return false;
+        }
+        else{
             return true;
         }
     }
