@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.dell.rare">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".UI.Master"
+            android:label="@string/title_activity_master">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UI.signup"
+            android:screenOrientation="userPortrait">
+
+        </activity>
+        <activity android:name=".UI.Login">
+
+        </activity>
+        <activity android:name=".UI.animation" >
+
+        </activity>
+        <activity
+            android:name=".UI.Color"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".UI.BrandSelect"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".UI.confirmed"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".UI.FinalPage"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".UI.Detailed_page"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".UI.PhoneSelect"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".UI.Firstpage"
+            android:screenOrientation="userPortrait"></activity>
+    </application>
+
+</manifest>
