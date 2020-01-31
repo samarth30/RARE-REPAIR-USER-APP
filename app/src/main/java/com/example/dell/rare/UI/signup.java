@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -19,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.example.dell.rare.R;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -30,15 +33,22 @@ import java.util.Map;
 
 public class signup extends AppCompatActivity {
 
-    TextInputLayout number_layout;
-    TextInputLayout name_layout,password_layout;
-    Button signup,login;
+    AutoCompleteTextView number_layout;
+    AutoCompleteTextView name_layout,password_layout;
+    MaterialRippleLayout signup;
+    TextView login;
     ProgressBar loading;
     String signupapi = "https://samarth-rare-app.herokuapp.com/users";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        if (SharedPrefManager.getInstance(this).isLoggedIn()) {
+            finish();
+            startActivity(new Intent(this, Master.class));
+        }
+
         loading = findViewById(R.id.loading_signup);
         number_layout = findViewById(R.id.text_input_number);
         name_layout = findViewById(R.id.text_input_name);
@@ -59,10 +69,11 @@ public class signup extends AppCompatActivity {
             public void onClick(View v) {
                 loading.setVisibility(View.VISIBLE);
                 signup.setVisibility(View.GONE);
-              if(validateNumber() && validatePassword()){
-                  name_layout.setErrorEnabled(false);
-                  password_layout.setErrorEnabled(false);
-                  createAccount(name_layout.getEditText().getText().toString(),number_layout.getEditText().getText().toString(),password_layout.getEditText().getText().toString());
+              if(validateName() && validateNumber() && validatePassword()){
+                  name_layout.setError(null);
+                  name_layout.setError(null);
+                  password_layout.setError(null);
+                  createAccount(name_layout.getText().toString(),number_layout.getText().toString(),password_layout.getText().toString());
               }else{
                   loading.setVisibility(View.GONE);
                   signup.setVisibility(View.VISIBLE);
@@ -137,7 +148,7 @@ public class signup extends AppCompatActivity {
     }
 
     private Boolean validateNumber(){
-        String number = number_layout.getEditText().getText().toString().trim();
+        String number = number_layout.getText().toString().trim();
 
         if(number.isEmpty()){
             number_layout.setError("Field can't be empty");
@@ -150,31 +161,35 @@ public class signup extends AppCompatActivity {
             return false;
         }
         else{
-            number_layout.setErrorEnabled(false);
+            number_layout.setError(null);
             return true;
         }
     }
 
     private Boolean validateName(){
-        String name = name_layout.getEditText().getText().toString().trim();
+        String name = name_layout.getText().toString().trim();
 
         if(name.isEmpty()){
             name_layout.setError("Field can't be empty");
             return false;
         }else{
-            number_layout.setErrorEnabled(false);
+            name_layout.setError(null);
             return true;
         }
     }
 
     private Boolean validatePassword(){
-        String name = password_layout.getEditText().getText().toString().trim();
+        String name = password_layout.getText().toString().trim();
 
         if(name.isEmpty()){
             password_layout.setError("Field can't be empty");
             return false;
-        }else{
-            number_layout.setErrorEnabled(false);
+        }else if(name.length() < 6) {
+            password_layout.setError("password should be atleast of six words");
+            return false;
+        }
+        else{
+            password_layout.setError(null);
             return true;
         }
     }
