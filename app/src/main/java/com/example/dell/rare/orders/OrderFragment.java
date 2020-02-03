@@ -11,10 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -55,19 +57,58 @@ public class OrderFragment extends Fragment {
     ExampleAdapter adapter;
     RequestQueue requestQueue;
     ShimmerFrameLayout mShimmerViewContainer;
+    BackgroundTask backgroundTask;
+    SwipeRefreshLayout swipeRefreshOrders;
+    ConstraintLayout constraintLayoutProgress;
+    boolean x=false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_orders, container, false);
         context = view.getContext();
+        constraintLayoutProgress = view.findViewById(R.id.progressBarconst);
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
-        mShimmerViewContainer.startShimmerAnimation();
-        parseData();
+        progressBar = view.findViewById(R.id.progressBarOrders);
+        if (x) {
+            mShimmerViewContainer.setVisibility(View.GONE);
+            constraintLayoutProgress.setVisibility(View.VISIBLE);
+        }else{
+            mShimmerViewContainer.startShimmerAnimation();
+        }
+
+
+//        backgroundTask = new BackgroundTask(context);
+
+//        swipeRefreshOrders = view.findViewById(R.id.swipeRefreshOrders);
+
+//        swipeRefreshOrders.setOnRefreshListener(this);
+//        swipeRefreshOrders.setColorScheme(android.R.color.holo_blue_bright,
+//                android.R.color.holo_green_light,
+//                android.R.color.holo_orange_light,
+//                android.R.color.holo_red_light);
+
+        if(!x) {
+            parseData();
+        }else{
+            parseData();
+        }
+
+//        swipeRefreshOrders.setOnRefreshListener(
+//                new SwipeRefreshLayout.OnRefreshListener() {
+//                    @Override
+//                    public void onRefresh() {
+//                        parseData();
+//                    }
+//                }
+//        );
+
         recyclerView = view.findViewById(R.id.recyclerview);
         adapter = new ExampleAdapter(getContext(), (ArrayList<ExampleItemVerticle>) list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+
+
 
 //        PushDownAnim.setPushDownAnimTo( recyclerView )
 //                .setOnClickListener( new View.OnClickListener(){
@@ -77,6 +118,7 @@ public class OrderFragment extends Fragment {
 //                    }
 //
 //                } );
+
 
         return view;
     }
@@ -99,8 +141,14 @@ public class OrderFragment extends Fragment {
 //        list.add(new ExampleItemVerticle("samarth", "samarth", "samarth", "samarth", "samarth", "samarth"));
 //    }
     }
+//
+//    @Override
+//    public void onRefresh() {
+//         parseData();
+//    }
 
     private void parseData() {
+        x = true;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, ordermeapi, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -123,6 +171,7 @@ public class OrderFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                     recyclerView.setVisibility(View.VISIBLE);
                     mShimmerViewContainer.setVisibility(View.GONE);
+                    constraintLayoutProgress.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -147,5 +196,6 @@ public class OrderFragment extends Fragment {
         requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
+
 
 }

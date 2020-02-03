@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home"
-        />
+        android:icon="@drawable/ic_web_asset"
+        android:title="RARE" />
 
     <item
         android:id="@+id/navigation_orders"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_shopping_cart"
         android:title="Orders" />
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_person_outline"
         android:title="@string/title_dashboard" />
 </menu>

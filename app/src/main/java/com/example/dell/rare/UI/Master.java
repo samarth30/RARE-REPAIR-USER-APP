@@ -46,6 +46,7 @@ public class Master extends AppCompatActivity {
 
         final BottomNavigationView mMainNav = findViewById(R.id.nav_view);
         BottomNavigationViewHelper.disableShiftMode(mMainNav);
+
         mMainFrame = (FrameLayout)findViewById(R.id.nav_host_fragment);
         homeFragment = new HomeFragment();
         dashboardFrament = new Dashboard();
