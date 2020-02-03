@@ -61,15 +61,17 @@ public class Detailed_page extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateNumber() && validateName() && !DefectedParts.equals("enter\nthe defects")) {
+                if(!DefectedParts.equals("enter\nthe defects")) {
+                    SharedPrefManager sharedPrefManager = new SharedPrefManager(Detailed_page.this);
+                    String number = sharedPrefManager.loadEmail();
 
                         Intent intent = new Intent(Detailed_page.this, FinalPage.class);
                         intent.putExtra("brand", brand);
                         intent.putExtra("model", model);
                         intent.putExtra("color", color);
                         intent.putExtra("defects", DefectedParts);
-                        intent.putExtra("name", name_layout.getEditText().getText().toString().trim() );
-                        intent.putExtra("number",  number_layout.getEditText().getText().toString().trim());
+                        intent.putExtra("name", "asdfg");
+                        intent.putExtra("number",  number);
                         startActivity(intent);
 
                 }else {

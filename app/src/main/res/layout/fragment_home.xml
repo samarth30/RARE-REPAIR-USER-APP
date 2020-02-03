@@ -95,7 +95,7 @@
                 android:fontFamily="@font/msemibold"
                 android:text="Get Repaired"
                 android:textAllCaps="false"
-                android:textColor="#FFC736"
+                android:textColor="@color/white_transparency"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"

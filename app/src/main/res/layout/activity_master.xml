@@ -19,7 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:background="@android:color/white"
+            android:background="@color/colorPrimaryDark"
             >
 
             <ImageButton
@@ -27,7 +27,7 @@
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="@color/colorPrimaryLight"
+                android:tint="@color/mdtp_white"
                 app:srcCompat="@drawable/ic_menu" />
 
             <View

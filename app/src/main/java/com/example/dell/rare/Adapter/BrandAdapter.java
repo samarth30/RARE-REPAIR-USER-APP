@@ -11,7 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.dell.rare.R;
 import com.example.dell.rare.classes.ExampleItem;
 
@@ -22,10 +23,12 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ExampleViewH
 
     private Context mContext;
     private ArrayList<ExampleItem> mExampleList;
-
+    RequestOptions options;
     public BrandAdapter(Context context, ArrayList<ExampleItem> exampleList){
         mContext = context;
         mExampleList = exampleList;
+
+        options = new RequestOptions().centerCrop().placeholder(R.drawable.layout_shape).error(R.drawable.layout_shape);
     }
 
 
@@ -40,10 +43,10 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ExampleViewH
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
         ExampleItem currentItem = mExampleList.get(position);
         String title = currentItem.getTitle();
-        int image = currentItem.getImageView();
+        String image = currentItem.getImageView();
 
         holder.name.setText(title);
-        holder.imageView.setImageResource(currentItem.getImageView());
+        Glide.with(mContext).load(image).apply(options).into(holder.imageView);
     }
 
     @Override

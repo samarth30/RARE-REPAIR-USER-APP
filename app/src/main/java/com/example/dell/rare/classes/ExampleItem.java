@@ -4,9 +4,9 @@ import android.widget.ImageView;
 
 public class ExampleItem {
     String title;
-    int imageView;
+    String imageView;
 
-    public ExampleItem(String title, int imageView) {
+    public ExampleItem(String title, String imageView) {
         this.title = title;
         this.imageView = imageView;
     }
@@ -19,11 +19,11 @@ public class ExampleItem {
         this.title = title;
     }
 
-    public int getImageView() {
+    public String getImageView() {
         return imageView;
     }
 
-    public void setImageView(int imageView) {
+    public void setImageView(String imageView) {
         this.imageView = imageView;
     }
 }
