@@ -3,6 +3,7 @@ package com.example.dell.rare.UI;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -32,6 +33,7 @@ public class BrandSelect extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<ExampleItem> list;
+    ProgressBar progressBar;
     BrandAdapter adapter;
     String brandapi = "https://samarth-rare-app.herokuapp.com/brands";
     RequestQueue requestQueue;
@@ -40,6 +42,8 @@ public class BrandSelect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_brand_select);
         list = new ArrayList<>();
+        progressBar = findViewById(R.id.progressBarBrandSelect);
+        progressBar.setVisibility(View.VISIBLE);
         parseData();
         recyclerView = findViewById(R.id.recyclerViewBrand);
         recyclerView.setHasFixedSize(true);
@@ -68,7 +72,7 @@ public class BrandSelect extends AppCompatActivity {
 //    }
 
     private void parseData() {
-        Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, brandapi, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -81,11 +85,11 @@ public class BrandSelect extends AppCompatActivity {
                         String brand = jsonObject.getString("brand");
                         String image = jsonObject.getString("brandImgUrl");
                         String image1 = "https://samarth-rare-app.herokuapp.com/"+image;
-                        Toast.makeText(BrandSelect.this, "in here " + i, Toast.LENGTH_SHORT).show();
                         list.add(new ExampleItem(brand,image1));
                     }
                     adapter.notifyDataSetChanged();
                     recyclerView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
