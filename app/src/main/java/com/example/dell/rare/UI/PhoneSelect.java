@@ -26,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.dell.rare.Adapter.AutoCompleteCountryAdapter;
 import com.example.dell.rare.Adapter.BrandAdapter;
+import com.example.dell.rare.Adapter.RecyclerItemClickListener;
 import com.example.dell.rare.R;
 import com.example.dell.rare.classes.CountryItem;
 import com.example.dell.rare.classes.ExampleItem;
@@ -63,8 +64,24 @@ public class PhoneSelect extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         BrandTextView = findViewById(R.id.textViewphone);
 
-        String brandname = getIntent().getExtras().getString("brandname");
+        final String brandname = getIntent().getExtras().getString("brandname");
         BrandTextView.setText(brandname);
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        ExampleItem currentItem = list.get(position);
+                        Intent intent = new Intent(PhoneSelect.this, FinalPage.class);
+                        intent.putExtra("brand",brandname);
+                        intent.putExtra("model",currentItem.getTitle());
+                        intent.putExtra("color","black");
+                        intent.putExtra("defects","screen");
+                        intent.putExtra("name","samarth");
+                        startActivity(intent);
+                    }
+                })
+        );
     }
 
     private void parseData() {

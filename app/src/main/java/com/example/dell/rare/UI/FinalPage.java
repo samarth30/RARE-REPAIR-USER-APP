@@ -61,14 +61,12 @@ public class FinalPage extends AppCompatActivity {
         colorP = getIntent().getExtras().getString("color");
         defectsP = getIntent().getExtras().getString("defects");
         nameP = getIntent().getExtras().getString("name");
-        numberP = getIntent().getExtras().getString("number");
 
         brand.setText(brandP);
         model.setText(modelP);
         color.setText(colorP);
         defects.setText(defectsP);
         name.setText(nameP);
-        number.setText(numberP);
 
 
 
@@ -79,7 +77,7 @@ public class FinalPage extends AppCompatActivity {
 //                sendNetworkRequest(user);
                 progressBar.setVisibility(View.VISIBLE);
                 submit.setVisibility(View.GONE);
-                parseData(nameP,numberP,brandP,modelP,colorP,defectsP);
+                parseData(brandP,modelP,colorP,defectsP);
 
 
             }
@@ -89,7 +87,7 @@ public class FinalPage extends AppCompatActivity {
 
     }
 
-    private void parseData(final String nameP, final String numberP, final String brandP, final String modelP, final String colorP, final String defectsP) {
+    private void parseData(final String brandP, final String modelP, final String colorP, final String defectsP) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, orderplace, new Response.Listener<String>() {
             @Override
@@ -147,31 +145,6 @@ public class FinalPage extends AppCompatActivity {
         };
 
         requestQueue.add(stringRequest);
-    }
-
-    private void sendNetworkRequest(User user){
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("https://samarth-task-manager.herokuapp.com/rare")
-                .addConverterFactory(GsonConverterFactory.create());
-
-        Retrofit retrofit = builder.build();
-
-        UserClient client = retrofit.create(UserClient.class);
-        Call<User> call =  client.createAccount(user);
-
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, retrofit2.Response<User> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(FinalPage.this, "success", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(FinalPage.this, "failed", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 }
