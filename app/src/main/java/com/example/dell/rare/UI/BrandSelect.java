@@ -1,9 +1,13 @@
 package com.example.dell.rare.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -47,29 +51,18 @@ public class BrandSelect extends AppCompatActivity {
         parseData();
         recyclerView = findViewById(R.id.recyclerViewBrand);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this,3));
         adapter = new BrandAdapter(this,list);
         recyclerView.setAdapter(adapter);
-    }
 
-//    private void parseData() {
-//        list.add(new ExampleItem("samsung",R.drawable.meal));
-//        list.add(new ExampleItem("Realme",R.drawable.flower));
-//        list.add(new ExampleItem("Nokia",R.drawable.driver));
-//        list.add(new ExampleItem("Sony",R.drawable.meal));
-//        list.add(new ExampleItem("Geonie",R.drawable.driver));
-//        list.add(new ExampleItem("MI",R.drawable.flower));
-//        list.add(new ExampleItem("One Plus",R.drawable.meal));
-//        list.add(new ExampleItem("VIVO",R.drawable.bookfive));
-//        list.add(new ExampleItem("samsung",R.drawable.meal));
-//        list.add(new ExampleItem("Realme",R.drawable.flower));
-//        list.add(new ExampleItem("Nokia",R.drawable.driver));
-//        list.add(new ExampleItem("Sony",R.drawable.meal));
-//        list.add(new ExampleItem("Geonie",R.drawable.driver));
-//        list.add(new ExampleItem("MI",R.drawable.flower));
-//        list.add(new ExampleItem("One Plus",R.drawable.meal));
-//        list.add(new ExampleItem("VIVO",R.drawable.bookfive));
-//    }
+        TextView brand = findViewById(R.id.textView);
+        brand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BrandSelect.this, PhoneSelect.class));
+            }
+        });
+    }
 
     private void parseData() {
 
