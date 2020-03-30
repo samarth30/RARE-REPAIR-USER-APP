@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.dell.rare.Adapter.BrandAdapter;
+import com.example.dell.rare.Adapter.RecyclerItemClickListener;
 import com.example.dell.rare.R;
 import com.example.dell.rare.classes.ExampleItem;
 import com.example.dell.rare.classes.ExampleItemVerticle;
@@ -62,6 +63,18 @@ public class BrandSelect extends AppCompatActivity {
                 startActivity(new Intent(BrandSelect.this, PhoneSelect.class));
             }
         });
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        ExampleItem currentItem = list.get(position);
+                        Intent intent = new Intent(BrandSelect.this, PhoneSelect.class);
+                        intent.putExtra("brandname",currentItem.getTitle());
+                        startActivity(intent);
+                    }
+                })
+        );
     }
 
     private void parseData() {

@@ -52,7 +52,7 @@ public class PhoneSelect extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_select);
-        list = new ArrayList<>();
+        list = new ArrayList<ExampleItem>();
         progressBar = findViewById(R.id.progressBarPhoneSelect);
         progressBar.setVisibility(View.VISIBLE);
         parseData();
@@ -62,6 +62,9 @@ public class PhoneSelect extends AppCompatActivity {
         adapter = new BrandAdapter(this,list);
         recyclerView.setAdapter(adapter);
         BrandTextView = findViewById(R.id.textViewphone);
+
+        String brandname = getIntent().getExtras().getString("brandname");
+        BrandTextView.setText(brandname);
     }
 
     private void parseData() {
@@ -70,19 +73,18 @@ public class PhoneSelect extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                    String brand = null;
+
                     JSONArray jsonArray = new JSONArray(response);
 
                     for (int i = 0; i<jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        brand = jsonObject.getString("brand");
+                        String brand = jsonObject.getString("brand");
                         String model = jsonObject.getString("model");
                         String image = jsonObject.getString("modelImgUrl");
                         String image1 = "https://samarth-rare-app.herokuapp.com/"+image;
                         list.add(new ExampleItem(model,image1));
                     }
                     adapter.notifyDataSetChanged();
-                    BrandTextView.setText(brand);
                     recyclerView.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                 } catch (JSONException e) {
