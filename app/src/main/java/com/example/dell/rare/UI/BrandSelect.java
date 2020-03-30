@@ -1,8 +1,13 @@
 package com.example.dell.rare.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -16,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.dell.rare.Adapter.BrandAdapter;
+import com.example.dell.rare.Adapter.RecyclerItemClickListener;
 import com.example.dell.rare.R;
 import com.example.dell.rare.classes.ExampleItem;
 import com.example.dell.rare.classes.ExampleItemVerticle;
@@ -32,6 +38,7 @@ public class BrandSelect extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<ExampleItem> list;
+    ProgressBar progressBar;
     BrandAdapter adapter;
     String brandapi = "https://samarth-rare-app.herokuapp.com/brands";
     RequestQueue requestQueue;
@@ -40,35 +47,38 @@ public class BrandSelect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_brand_select);
         list = new ArrayList<>();
+        progressBar = findViewById(R.id.progressBarBrandSelect);
+        progressBar.setVisibility(View.VISIBLE);
         parseData();
         recyclerView = findViewById(R.id.recyclerViewBrand);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this,3));
         adapter = new BrandAdapter(this,list);
         recyclerView.setAdapter(adapter);
+
+        TextView brand = findViewById(R.id.textView);
+        brand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BrandSelect.this, PhoneSelect.class));
+            }
+        });
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        ExampleItem currentItem = list.get(position);
+                        Intent intent = new Intent(BrandSelect.this, PhoneSelect.class);
+                        intent.putExtra("brandname",currentItem.getTitle());
+                        startActivity(intent);
+                    }
+                })
+        );
     }
 
-//    private void parseData() {
-//        list.add(new ExampleItem("samsung",R.drawable.meal));
-//        list.add(new ExampleItem("Realme",R.drawable.flower));
-//        list.add(new ExampleItem("Nokia",R.drawable.driver));
-//        list.add(new ExampleItem("Sony",R.drawable.meal));
-//        list.add(new ExampleItem("Geonie",R.drawable.driver));
-//        list.add(new ExampleItem("MI",R.drawable.flower));
-//        list.add(new ExampleItem("One Plus",R.drawable.meal));
-//        list.add(new ExampleItem("VIVO",R.drawable.bookfive));
-//        list.add(new ExampleItem("samsung",R.drawable.meal));
-//        list.add(new ExampleItem("Realme",R.drawable.flower));
-//        list.add(new ExampleItem("Nokia",R.drawable.driver));
-//        list.add(new ExampleItem("Sony",R.drawable.meal));
-//        list.add(new ExampleItem("Geonie",R.drawable.driver));
-//        list.add(new ExampleItem("MI",R.drawable.flower));
-//        list.add(new ExampleItem("One Plus",R.drawable.meal));
-//        list.add(new ExampleItem("VIVO",R.drawable.bookfive));
-//    }
-
     private void parseData() {
-        Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, brandapi, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -81,11 +91,11 @@ public class BrandSelect extends AppCompatActivity {
                         String brand = jsonObject.getString("brand");
                         String image = jsonObject.getString("brandImgUrl");
                         String image1 = "https://samarth-rare-app.herokuapp.com/"+image;
-                        Toast.makeText(BrandSelect.this, "in here " + i, Toast.LENGTH_SHORT).show();
                         list.add(new ExampleItem(brand,image1));
                     }
                     adapter.notifyDataSetChanged();
                     recyclerView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

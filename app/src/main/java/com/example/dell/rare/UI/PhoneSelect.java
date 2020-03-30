@@ -2,6 +2,9 @@ package com.example.dell.rare.UI;
 
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -9,365 +12,120 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.dell.rare.Adapter.AutoCompleteCountryAdapter;
+import com.example.dell.rare.Adapter.BrandAdapter;
+import com.example.dell.rare.Adapter.RecyclerItemClickListener;
 import com.example.dell.rare.R;
 import com.example.dell.rare.classes.CountryItem;
+import com.example.dell.rare.classes.ExampleItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PhoneSelect extends AppCompatActivity {
 
-    ArrayList<String> users;
-    ArrayList<String> colors;
-    ArrayList<String> model;
-    Spinner spinner1,spinner2,spinner3;
-
-    AutoCompleteTextView brand_auto,model_auto,color_auto;
-    List<CountryItem> countryList;
-    List<CountryItem> modelList;
-    List<CountryItem> colorList;
-
-    String text_brand,text_model,text_color;
+    RecyclerView recyclerView;
+    ArrayList<ExampleItem> list;
+    ProgressBar progressBar;
+    BrandAdapter adapter;
+    String modelsapi = "https://samarth-rare-app.herokuapp.com/models";
+    RequestQueue requestQueue;
+    TextView BrandTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_select);
+        list = new ArrayList<ExampleItem>();
+        progressBar = findViewById(R.id.progressBarPhoneSelect);
+        progressBar.setVisibility(View.VISIBLE);
+        parseData();
+        recyclerView = findViewById(R.id.recyclerViewphone);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,3));
+        adapter = new BrandAdapter(this,list);
+        recyclerView.setAdapter(adapter);
+        BrandTextView = findViewById(R.id.textViewphone);
 
-        /// view on which you want to apply autosuggestion
+        final String brandname = getIntent().getExtras().getString("brandname");
+        BrandTextView.setText(brandname);
 
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        ExampleItem currentItem = list.get(position);
+                        Intent intent = new Intent(PhoneSelect.this, FinalPage.class);
+                        intent.putExtra("brand",brandname);
+                        intent.putExtra("model",currentItem.getTitle());
+                        intent.putExtra("color","black");
+                        intent.putExtra("defects","screen");
+                        intent.putExtra("name","samarth");
+                        startActivity(intent);
+                    }
+                })
+        );
+    }
 
-        brand_auto = findViewById(R.id.brand);
-        model_auto = findViewById(R.id.model);
-        color_auto = findViewById(R.id.color);
+    private void parseData() {
 
-        /// autosuggestion code
-        fillBrandList();
-
-        AutoCompleteCountryAdapter brandSuggestion = new AutoCompleteCountryAdapter(this,countryList);
-
-//        brand_auto.setAdapter(brandSuggestion);
-
-
-
-        brand_auto.addTextChangedListener(new TextWatcher() {
-
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, modelsapi, new Response.Listener<String>() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onResponse(String response) {
+                try {
 
-            }
+                    JSONArray jsonArray = new JSONArray(response);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count){
-//                newsAdapter.getFilter().filter(s);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        modelList = new ArrayList<>();
-
-
-//        model_auto.addTextChangedListener(new TextWatcher() {
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                        String brandSelected =  brand_auto.getText().toString();
-//                        if(brandSelected.equals("mi")){
-//                            modelList.clear();
-//                            parsemi();
-//                            AutoCompleteCountryAdapter modelSuggestion = new AutoCompleteCountryAdapter(PhoneSelect.this,modelList);
-//                            model_auto.setAdapter(modelSuggestion);
-//                        }else if(brandSelected.equals("samsung")){
-//                             modelList.clear();
-//                             parsesamsung();
-//                            AutoCompleteCountryAdapter modelSuggestion = new AutoCompleteCountryAdapter(PhoneSelect.this,modelList);
-//                            model_auto.setAdapter(modelSuggestion);
-//                        }else if(brandSelected.equals("sony")){
-//                            modelList.clear();
-//                            parseSony();
-//                            AutoCompleteCountryAdapter modelSuggestion = new AutoCompleteCountryAdapter(PhoneSelect.this,modelList);
-//                            model_auto.setAdapter(modelSuggestion);
-//                        }else if(brandSelected.equals("oppo")){
-//                            modelList.clear();
-//                            parseOppo();
-//                            AutoCompleteCountryAdapter modelSuggestion = new AutoCompleteCountryAdapter(PhoneSelect.this,modelList);
-//                            model_auto.setAdapter(modelSuggestion);
-//                        }else if(brandSelected.equals("realme")){
-//                            modelList.clear();
-//                            parseRealme();
-//                            AutoCompleteCountryAdapter modelSuggestion = new AutoCompleteCountryAdapter(PhoneSelect.this,modelList);
-//                            model_auto.setAdapter(modelSuggestion);
-//                        }else if(brandSelected.equals("apple")){
-//                            modelList.clear();
-//                            parseApple();
-//                            AutoCompleteCountryAdapter modelSuggestion = new AutoCompleteCountryAdapter(PhoneSelect.this,modelList);
-//                            model_auto.setAdapter(modelSuggestion);
-//                        }else if(brandSelected.equals("nokia")){
-//                            modelList.clear();
-//                            parseNokia();
-//                            AutoCompleteCountryAdapter modelSuggestion = new AutoCompleteCountryAdapter(PhoneSelect.this,modelList);
-//                            model_auto.setAdapter(modelSuggestion);
-//                        }
-//
-//            }
-
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count){
-////                newsAdapter.getFilter().filter(s);
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-//        colorList = new ArrayList<>();
-//        parseColorMain();
-//        AutoCompleteCountryAdapter colorSuggestion = new AutoCompleteCountryAdapter(this,colorList);
-//
-//        color_auto.setAdapter(colorSuggestion);
-//
-//
-//        color_auto.addTextChangedListener(new TextWatcher() {
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count){
-////                newsAdapter.getFilter().filter(s);
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-
-        Button next = findViewById(R.id.next);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                text_brand = brand_auto.getText().toString();
-                text_color = color_auto.getText().toString();
-                text_model = model_auto.getText().toString();
-
-                if(TextUtils.isEmpty(brand_auto.getText().toString())){
-                    Toast.makeText(PhoneSelect.this, "please fill the brand name", Toast.LENGTH_SHORT).show();
-                }else if(TextUtils.isEmpty(model_auto.getText().toString())){
-                    Toast.makeText(PhoneSelect.this, "please fill the model name", Toast.LENGTH_SHORT).show();
-                }else if(TextUtils.isEmpty(color_auto.getText().toString())){
-                    Toast.makeText(PhoneSelect.this, "Fill the color of you phone", Toast.LENGTH_SHORT).show();
-                }else{
-                    Intent intent = new Intent(PhoneSelect.this, Detailed_page.class);
-                    intent.putExtra("text_brand", text_brand);
-                    intent.putExtra("text_model", text_model);
-                    intent.putExtra("text_color", text_color);
-                    startActivity(intent);
+                    for (int i = 0; i<jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String brand = jsonObject.getString("brand");
+                        String model = jsonObject.getString("model");
+                        String image = jsonObject.getString("modelImgUrl");
+                        String image1 = "https://samarth-rare-app.herokuapp.com/"+image;
+                        list.add(new ExampleItem(model,image1));
+                    }
+                    adapter.notifyDataSetChanged();
+                    recyclerView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        });
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+//                headers.put("", "Bearer " + token);
+                return headers;
+            }
+        };
+
+
+        requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
-//    Intent intent = new Intent(PhoneSelect.this, Detailed_page.class);
-//                    intent.putExtra("text_brand", text_brand);
-//                    intent.putExtra("text_model", text_model);
-//                    intent.putExtra("text_color", text_color);
-//    startActivity(intent);
-    private void parseColorMain(){
-        modelList.add(new CountryItem("red",R.color.colorPrimaryDark));
-        modelList.add(new CountryItem("blue",R.color.colorPrimaryDark));
-        modelList.add(new CountryItem("green",R.color.colorPrimaryDark));
-        modelList.add(new CountryItem("voilet",R.color.colorPrimaryDark));
-        modelList.add(new CountryItem("red",R.color.colorPrimaryDark));
-        modelList.add(new CountryItem("red",R.color.colorPrimaryDark));
-        modelList.add(new CountryItem("red",R.color.colorPrimaryDark));
-
-    }
-
-    private void parseNokia() {
-        modelList.add(new CountryItem("nokia X",R.drawable.meal));
-        modelList.add(new CountryItem("nokia X",R.drawable.sg));
-        modelList.add(new CountryItem("nokia X",R.drawable.flower));
-        modelList.add(new CountryItem("nokia X",R.drawable.payment));
-        modelList.add(new CountryItem("nokia X",R.drawable.payment));
-    }
-
-    private void parseApple() {
-        modelList.add(new CountryItem("iphone X",R.drawable.driver));
-        modelList.add(new CountryItem("iphone X",R.drawable.meal));
-        modelList.add(new CountryItem("iphone X",R.drawable.sg));
-        modelList.add(new CountryItem("iphone X",R.drawable.flower));
-        modelList.add(new CountryItem("iphone X",R.drawable.payment));
-        modelList.add(new CountryItem("iphone X",R.drawable.payment));
-    }
-
-    private void parseRealme() {
-        modelList.add(new CountryItem("realme one",R.drawable.driver));
-        modelList.add(new CountryItem("realme one",R.drawable.meal));
-        modelList.add(new CountryItem("realme one",R.drawable.sg));
-        modelList.add(new CountryItem("realme one",R.drawable.flower));
-        modelList.add(new CountryItem("realme one",R.drawable.payment));
-        modelList.add(new CountryItem("realme one",R.drawable.payment));
-    }
-
-    private void parseOppo() {
-        modelList.add(new CountryItem("oppo f2",R.drawable.payment));
-        modelList.add(new CountryItem("oppo f2",R.drawable.payment));
-        modelList.add(new CountryItem("oppo f2",R.drawable.payment));
-        modelList.add(new CountryItem("oppo f2",R.drawable.sg));
-        modelList.add(new CountryItem("oppo f2",R.drawable.meal));
-        modelList.add(new CountryItem("oppo f2",R.drawable.payment));
-        modelList.add(new CountryItem("oppo f2",R.drawable.flower));
-        modelList.add(new CountryItem("oppo f2",R.drawable.meal));
-        modelList.add(new CountryItem("oppo f2",R.drawable.payment));
-    }
-
-    private void parseSony() {
-        modelList.add(new CountryItem("sony experia",R.drawable.meal));
-        modelList.add(new CountryItem("sony experia",R.drawable.meal));
-        modelList.add(new CountryItem("sony experia",R.drawable.sg));
-        modelList.add(new CountryItem("sony experia",R.drawable.flower));
-        modelList.add(new CountryItem("sony experia",R.drawable.driver));
-        modelList.add(new CountryItem("sony experia",R.drawable.flower));
-        modelList.add(new CountryItem("sony experia",R.drawable.driver));
-        modelList.add(new CountryItem("sony experia",R.drawable.payment));
-
-    }
-
-    private void parsemi() {
-
-        modelList.add(new CountryItem("redmi note 3",R.drawable.meal));
-        modelList.add(new CountryItem("redmi note 3",R.drawable.driver));
-        modelList.add(new CountryItem("redmi note 3",R.drawable.meal));
-        modelList.add(new CountryItem("redmi note 3",R.drawable.sg));
-        modelList.add(new CountryItem("redmi note 3",R.drawable.driver));
-        modelList.add(new CountryItem("redmi note 3",R.drawable.driver));
-    }
-
-    private void parsesamsung(){
-        modelList.add(new CountryItem("samsung j2",R.drawable.driver));
-        modelList.add(new CountryItem("samsung j2",R.drawable.meal));
-        modelList.add(new CountryItem("samsung j2",R.drawable.meal));
-        modelList.add(new CountryItem("samsung j2",R.drawable.payment));
-        modelList.add(new CountryItem("samsung j2",R.drawable.sg));
-        modelList.add(new CountryItem("samsung j2",R.drawable.driver));
-        modelList.add(new CountryItem("samsung j2",R.drawable.flower));
-
-    }
-    private void fillBrandList(){
-        countryList = new ArrayList<>();
-        countryList.add(new CountryItem("samsung",R.drawable.sg));
-        countryList.add(new CountryItem("realme",R.drawable.payment));
-        countryList.add(new CountryItem("oppo",R.drawable.meal));
-        countryList.add(new CountryItem("mi",R.drawable.driver));
-        countryList.add(new CountryItem("nokia",R.drawable.flower));
-        countryList.add(new CountryItem("apple",R.drawable.sg));
-        countryList.add(new CountryItem("sony",R.drawable.driver));
-    }
-
-
-
-
-    private void parseModel() {
-        model.add("select the model");
-     model.add("mi a1");
-     model.add("samsung j2");
-     model.add("realme 1");
-     model.add("one plus");
-     model.add("one plus 6t");
-     model.add("apple i phone x");
-    }
-
-    private void parseColor() {
-        colors.add("select the color");
-        colors.add("red");
-        colors.add("blue");
-        colors.add("black");
-        colors.add("baby pink");
-        colors.add("blue");
-    }
-
-
-    private void parsePhone() {
-        users.add("select the brand");
-      users.add("samsung");
-      users.add("mi");
-      users.add("realme");
-      users.add("oppo");
-      users.add("one plus");
-      users.add("apple");
-    }
 
 }
-//        spinner1 = findViewById(R.id.phone_select);
-//        spinner2 = findViewById(R.id.select_model);
-//        spinner3 = findViewById(R.id.select_color);
-//
-//        users = new ArrayList<>();
-//        colors = new ArrayList<>();
-//        model = new ArrayList<>();
-//
-//        parsePhone();
-//        parseModel();
-//        parseColor();
-//
-//        text_color = colors.get(0);
-//        text_model = model.get(0);
-//        text_brand = users.get(0);
-//
-//        ArrayAdapter<String> adapter_phone = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, users);
-//        spinner1.setAdapter(adapter_phone);
-//
-//        ArrayAdapter<String> adapter_model = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, model);
-//        adapter_model.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner2.setAdapter(adapter_model);
-//
-//        ArrayAdapter<String> adapter_color = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, colors);
-//        spinner3.setAdapter(adapter_color);
-//
-//        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
-//                text_brand = users.get(position);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(android.widget.AdapterView<?> parent) {
-//
-//            }
-//        });
-//
-//        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
-//                text_model = model.get(position);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(android.widget.AdapterView<?> parent) {
-//
-//            }
-//        });
-//
-//        spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
-//                text_color = colors.get(position);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(android.widget.AdapterView<?> parent) {
-//
-//            }
-//        });

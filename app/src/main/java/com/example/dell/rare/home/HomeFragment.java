@@ -16,6 +16,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.dell.rare.*;
+import com.example.dell.rare.Adapter.BrandAdapter;
+import com.example.dell.rare.UI.BrandSelect;
 import com.example.dell.rare.UI.PhoneSelect;
 import com.example.dell.rare.UI.SharedPrefManager;
 
@@ -38,7 +40,7 @@ public class HomeFragment extends Fragment {
         getstarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,PhoneSelect.class);
+                Intent intent = new Intent(context, BrandSelect.class);
                 startActivity(intent);
             }
         });
