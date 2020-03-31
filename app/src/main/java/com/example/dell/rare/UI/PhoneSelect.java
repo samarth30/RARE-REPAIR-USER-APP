@@ -49,6 +49,7 @@ public class PhoneSelect extends AppCompatActivity {
     String modelsapi = "https://samarth-rare-app.herokuapp.com/models";
     RequestQueue requestQueue;
     TextView BrandTextView;
+    String brandname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +65,7 @@ public class PhoneSelect extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         BrandTextView = findViewById(R.id.textViewphone);
 
-        final String brandname = getIntent().getExtras().getString("brandname");
+        brandname = getIntent().getExtras().getString("brandname");
         BrandTextView.setText(brandname);
 
         recyclerView.addOnItemTouchListener(
@@ -94,12 +95,14 @@ public class PhoneSelect extends AppCompatActivity {
                     JSONArray jsonArray = new JSONArray(response);
 
                     for (int i = 0; i<jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        String brand = jsonObject.getString("brand");
-                        String model = jsonObject.getString("model");
-                        String image = jsonObject.getString("modelImgUrl");
-                        String image1 = "https://samarth-rare-app.herokuapp.com/"+image;
-                        list.add(new ExampleItem(model,image1));
+                        if(jsonArray.getJSONObject(i).getString("brand").equalsIgnoreCase(brandname)) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            String brand = jsonObject.getString("brand");
+                            String model = jsonObject.getString("model");
+                            String image = jsonObject.getString("modelImgUrl");
+                            String image1 = "https://samarth-rare-app.herokuapp.com/" + image;
+                            list.add(new ExampleItem(model, image1));
+                        }
                     }
                     adapter.notifyDataSetChanged();
                     recyclerView.setVisibility(View.VISIBLE);

@@ -8,11 +8,13 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +53,7 @@ public class signup extends AppCompatActivity implements GoogleApiClient.Connect
     MaterialRippleLayout signup;
     TextView login;
     ProgressBar loading;
+
     String signupapi = "https://samarth-rare-app.herokuapp.com/users";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,8 @@ public class signup extends AppCompatActivity implements GoogleApiClient.Connect
             startActivity(new Intent(this, Master.class));
         }
 
+        getPhone();
+
         loading = findViewById(R.id.loading_signup);
         number_layout = findViewById(R.id.text_input_number);
         name_layout = findViewById(R.id.text_input_name);
@@ -69,6 +74,8 @@ public class signup extends AppCompatActivity implements GoogleApiClient.Connect
 
         signup = findViewById(R.id.signup_button);
         login = findViewById(R.id.login_button);
+
+
 
         number_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +110,9 @@ public class signup extends AppCompatActivity implements GoogleApiClient.Connect
         });
     }
 
+    public void phone(View view) {
+        getPhone();
+    }
 
     private void getPhone() {
         GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
@@ -269,4 +279,6 @@ public class signup extends AppCompatActivity implements GoogleApiClient.Connect
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+
 }

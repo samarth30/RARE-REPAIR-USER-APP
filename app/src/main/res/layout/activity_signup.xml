@@ -188,7 +188,6 @@
                        android:minHeight="@dimen/spacing_xmlarge"
                        android:paddingLeft="@dimen/spacing_large"
                        android:paddingRight="@dimen/spacing_large" />
-
                    <View
                        android:layout_width="match_parent"
                        android:layout_height="1dp"

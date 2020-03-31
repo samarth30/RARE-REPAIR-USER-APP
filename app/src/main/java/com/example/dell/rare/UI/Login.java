@@ -13,6 +13,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +68,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             startActivity(new Intent(this, Master.class));
         }
 
+        getPhone();
             password_auto = findViewById(R.id.password_auto);
             number_auto = findViewById(R.id.number_auto);
             number_layout = findViewById(R.id.text_input_number);
