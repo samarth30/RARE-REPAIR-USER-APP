@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.jar.Attributes;
 
 public class Login extends AppCompatActivity {
 
@@ -36,10 +37,11 @@ public class Login extends AppCompatActivity {
     TextInputLayout name_layout,password_layout;
     FloatingActionButton login;
     TextView signup;
-    RequestQueue requestQueue;
+    String NameFinal;
     AutoCompleteTextView number_auto,password_auto;
     public static String TokenFinal;
     String loginapi = "https://samarth-rare-app.herokuapp.com/users/login";
+    String usermeapi = "https://samarth-rare-app.herokuapp.com/users/me";
 
     ProgressBar loading;
     @Override
@@ -60,7 +62,7 @@ public class Login extends AppCompatActivity {
             login = findViewById(R.id.login_button);
             password_layout = findViewById(R.id.text_password);
 
-            requestQueue = Volley.newRequestQueue(this);
+
 
             signup.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,8 +102,8 @@ public class Login extends AppCompatActivity {
                         if (Logged) {
                             String token = jsonObject.getString("token");
                             TokenFinal = token;
+                            GetUserName(token);
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(token,number);
-
                             loading.setVisibility(View.GONE);
                             login.setAlpha(1f);
                             startActivity(new Intent(Login.this, Master.class));
@@ -143,10 +145,48 @@ public class Login extends AppCompatActivity {
                     return headers;
                 }
             };
-
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
 
     }
+
+    private void GetUserName(final String authtoken) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, usermeapi, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    String name = jsonObject.getString("name");
+
+                    if (!name.isEmpty()) {
+                      NameFinal = name;
+                        SharedPrefManager.getInstance(getApplicationContext()).username(name);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> headers = new HashMap<>();
+                headers.put("Authorization","Bearer "+ authtoken);
+                return headers;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+
 
     private boolean isValidPhoneNumber(CharSequence phoneNumber) {
         if (!TextUtils.isEmpty(phoneNumber)) {

@@ -63,7 +63,7 @@ public class Detailed_page extends AppCompatActivity {
             public void onClick(View v) {
                 if(!DefectedParts.equals("enter\nthe defects")) {
                     SharedPrefManager sharedPrefManager = new SharedPrefManager(Detailed_page.this);
-                    String number = sharedPrefManager.loadEmail();
+                    String number = sharedPrefManager.loadNumber();
 
                         Intent intent = new Intent(Detailed_page.this, FinalPage.class);
                         intent.putExtra("brand", brand);
