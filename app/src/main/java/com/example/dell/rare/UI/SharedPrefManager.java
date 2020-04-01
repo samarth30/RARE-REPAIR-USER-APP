@@ -49,15 +49,29 @@ public class SharedPrefManager {
         editor.putString(KEY_NUMBER,number);
         editor.apply();
     }
+
+    public void username(String name) {
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences("username", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_USERNAME,name);
+        editor.apply();
+    }
+
     public String loadToken(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
         String token = sharedPreferences.getString(TOKEN,"");
         return token.toString();
     }
-    public String loadEmail(){
+    public String loadNumber(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
-        String email =  sharedPreferences.getString(KEY_NUMBER,"");
-        return email;
+        String number =  sharedPreferences.getString(KEY_NUMBER,"");
+        return number;
+    }
+
+    public String loadName(){
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences("username",Context.MODE_PRIVATE);
+        String name =  sharedPreferences.getString(KEY_USERNAME,"");
+        return name;
     }
 
     //this method will checker whether user is already logged in or not

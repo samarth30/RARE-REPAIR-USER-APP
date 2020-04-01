@@ -35,9 +35,13 @@ public class Dashboard extends Fragment {
         view = inflater.inflate(layout.fragment_dashboard, container, false);
         context = view.getContext();
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
-        String email = sharedPrefManager.loadEmail();
-        TextView textView = view.findViewById(R.id.textviewuser);
-        textView.setText(email);
+        String number = sharedPrefManager.loadNumber();
+        String name = sharedPrefManager.loadName();
+        TextView textviewnumber = view.findViewById(R.id.textviewuserNumber);
+        TextView textviewname = view.findViewById(id.textviewusername);
+
+        textviewname.setText("Hello "+name);
+        textviewnumber.setText(number);
 
         Button Log_out = (Button) view.findViewById(R.id.log_out);
 
