@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,6 +29,8 @@ import com.example.dell.rare.Adapter.RecyclerItemClickListener;
 import com.example.dell.rare.R;
 import com.example.dell.rare.classes.ExampleItem;
 import com.example.dell.rare.classes.ExampleItemVerticle;
+import com.example.dell.rare.utils.Tools;
+import com.example.dell.rare.widget.SpacingItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +59,8 @@ public class BrandSelect extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewBrand);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this,3));
+        recyclerView.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(this,2), true));
+        recyclerView.setHasFixedSize(true);
         adapter = new BrandAdapter(this,list);
         recyclerView.setAdapter(adapter);
 
@@ -129,4 +135,6 @@ public class BrandSelect extends AppCompatActivity {
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
     }
+
+
 }

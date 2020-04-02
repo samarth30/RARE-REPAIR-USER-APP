@@ -15,7 +15,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".UI.Master"
-            android:label="@string/title_activity_master">
+            android:label="@string/title_activity_master"
+            android:screenOrientation="userPortrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,10 +30,13 @@
             android:screenOrientation="userPortrait">
 
         </activity>
-        <activity android:name=".UI.Login">
+        <activity android:name=".UI.Login"
+            android:screenOrientation="userPortrait"
+            >
 
         </activity>
-        <activity android:name=".UI.animation" >
+        <activity android:name=".UI.animation"
+            android:screenOrientation="userPortrait">
 
         </activity>
         <activity
@@ -39,7 +44,8 @@
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".UI.BrandSelect"
-            android:screenOrientation="userPortrait">
+            android:screenOrientation="userPortrait"
+            >
 
         </activity>
         <activity
