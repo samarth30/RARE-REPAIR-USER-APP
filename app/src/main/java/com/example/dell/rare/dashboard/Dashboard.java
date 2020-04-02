@@ -1,6 +1,7 @@
 package com.example.dell.rare.dashboard;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,10 +42,10 @@ public class Dashboard extends Fragment {
         TextView textviewnumber = view.findViewById(R.id.textviewuserNumber);
         TextView textviewname = view.findViewById(id.textviewusername);
 
-        textviewname.setText("Hello "+name);
+        textviewname.setText(name);
         textviewnumber.setText(number);
 
-        LinearLayout Log_out =  view.findViewById(R.id.log_out);
+        Button Log_out =  view.findViewById(R.id.log_out);
 
         PushDownAnim.setPushDownAnimTo( Log_out )
         .setOnClickListener( new View.OnClickListener(){
@@ -72,4 +73,6 @@ public class Dashboard extends Fragment {
 
         return  view;
     }
+
+
 }

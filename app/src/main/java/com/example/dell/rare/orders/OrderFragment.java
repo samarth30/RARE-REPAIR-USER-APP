@@ -1,6 +1,7 @@
 package com.example.dell.rare.orders;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -196,6 +197,7 @@ public class OrderFragment extends Fragment {
         requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
+
 
 
 }
