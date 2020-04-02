@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class Dashboard extends Fragment {
         textviewname.setText("Hello "+name);
         textviewnumber.setText(number);
 
-        Button Log_out = (Button) view.findViewById(R.id.log_out);
+        LinearLayout Log_out =  view.findViewById(R.id.log_out);
 
         PushDownAnim.setPushDownAnimTo( Log_out )
         .setOnClickListener( new View.OnClickListener(){

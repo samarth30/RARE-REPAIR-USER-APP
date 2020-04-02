@@ -89,8 +89,8 @@ public class BrandSelect extends AppCompatActivity {
                     for (int i = 0; i<jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String brand = jsonObject.getString("brand");
-                        String image = jsonObject.getString("brandImgUrl");
-                        String image1 = "https://samarth-rare-app.herokuapp.com/"+image;
+                        String id = jsonObject.getString("_id");
+                        String image1 = "https://samarth-rare-app.herokuapp.com/brandss/"+id;
                         list.add(new ExampleItem(brand,image1));
                     }
                     adapter.notifyDataSetChanged();
