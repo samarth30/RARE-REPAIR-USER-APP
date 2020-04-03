@@ -5,13 +5,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Patterns;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -280,5 +284,12 @@ public class signup extends AppCompatActivity implements GoogleApiClient.Connect
 
     }
 
+   @Override
+   protected void attachBaseContext(Context newBase) {
+    super.attachBaseContext(newBase);
+    final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+    override.fontScale = 1.0f;
+    applyOverrideConfiguration(override);
+   }
 
 }

@@ -3,6 +3,7 @@ package com.example.dell.rare.UI;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -157,5 +158,7 @@ public class SharedPrefManager {
         requestQueue.add(stringRequest);
 
     }
+
+
 
 }

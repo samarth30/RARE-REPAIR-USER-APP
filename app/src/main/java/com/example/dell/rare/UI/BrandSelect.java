@@ -2,9 +2,13 @@ package com.example.dell.rare.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,6 +29,8 @@ import com.example.dell.rare.Adapter.RecyclerItemClickListener;
 import com.example.dell.rare.R;
 import com.example.dell.rare.classes.ExampleItem;
 import com.example.dell.rare.classes.ExampleItemVerticle;
+import com.example.dell.rare.utils.Tools;
+import com.example.dell.rare.widget.SpacingItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +59,8 @@ public class BrandSelect extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewBrand);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this,3));
+        recyclerView.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(this,2), true));
+        recyclerView.setHasFixedSize(true);
         adapter = new BrandAdapter(this,list);
         recyclerView.setAdapter(adapter);
 
@@ -89,8 +97,8 @@ public class BrandSelect extends AppCompatActivity {
                     for (int i = 0; i<jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String brand = jsonObject.getString("brand");
-                        String image = jsonObject.getString("brandImgUrl");
-                        String image1 = "https://samarth-rare-app.herokuapp.com/"+image;
+                        String id = jsonObject.getString("_id");
+                        String image1 = "https://samarth-rare-app.herokuapp.com/brandss/"+id;
                         list.add(new ExampleItem(brand,image1));
                     }
                     adapter.notifyDataSetChanged();
@@ -117,6 +125,15 @@ public class BrandSelect extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
     }
 
 

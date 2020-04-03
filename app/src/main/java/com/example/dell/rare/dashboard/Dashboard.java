@@ -1,11 +1,13 @@
 package com.example.dell.rare.dashboard;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,10 +42,10 @@ public class Dashboard extends Fragment {
         TextView textviewnumber = view.findViewById(R.id.textviewuserNumber);
         TextView textviewname = view.findViewById(id.textviewusername);
 
-        textviewname.setText("Hello "+name);
+        textviewname.setText(name);
         textviewnumber.setText(number);
 
-        Button Log_out = (Button) view.findViewById(R.id.log_out);
+        Button Log_out =  view.findViewById(R.id.log_out);
 
         PushDownAnim.setPushDownAnimTo( Log_out )
         .setOnClickListener( new View.OnClickListener(){
@@ -71,4 +73,6 @@ public class Dashboard extends Fragment {
 
         return  view;
     }
+
+
 }
