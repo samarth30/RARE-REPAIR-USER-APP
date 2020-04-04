@@ -24,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+
         </activity>
         <activity
             android:name=".UI.signup"
@@ -63,6 +64,11 @@
         <activity
             android:name=".UI.Firstpage"
             android:screenOrientation="userPortrait"></activity>
+
+        <activity android:name=".UI.SearchHistoryCard"
+            android:windowSoftInputMode="stateVisible"
+            >
+        </activity>
     </application>
 
 </manifest>

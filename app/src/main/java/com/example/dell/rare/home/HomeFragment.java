@@ -19,6 +19,7 @@ import com.example.dell.rare.*;
 import com.example.dell.rare.Adapter.BrandAdapter;
 import com.example.dell.rare.UI.BrandSelect;
 import com.example.dell.rare.UI.PhoneSelect;
+import com.example.dell.rare.UI.SearchHistoryCard;
 import com.example.dell.rare.UI.SharedPrefManager;
 
 
@@ -37,6 +38,7 @@ public class HomeFragment extends Fragment {
         context = view.getContext();
 
         Button getstarted = view.findViewById(R.id.getstarted);
+        Button search = view.findViewById(R.id.search);
         getstarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +46,16 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SearchHistoryCard.class);
+                startActivity(intent);
+            }
+        });
         return  view;
     }
-}
+
+    }
 
