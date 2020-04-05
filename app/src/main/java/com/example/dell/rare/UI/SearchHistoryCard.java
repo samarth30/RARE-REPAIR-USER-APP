@@ -60,7 +60,7 @@ public class SearchHistoryCard extends AppCompatActivity {
     private EditText editsearch;
     private RecyclerView recyclerSuggestion;
     private AdapterSuggestionSearch mAdapterSuggestion;
-
+    private ImageButton btback;
     String searchapi = "https://samarth-rare-app.herokuapp.com/search";
     ArrayList<search> list;
     @Override
@@ -99,7 +99,7 @@ public class SearchHistoryCard extends AppCompatActivity {
         editsearch.addTextChangedListener(textWatcher);
 
         recyclerSuggestion = (RecyclerView) findViewById(R.id.recyclerSuggestion);
-
+        btback = findViewById(R.id.btback);
         recyclerSuggestion.setLayoutManager(new LinearLayoutManager(this));
         recyclerSuggestion.setHasFixedSize(true);
 
@@ -109,6 +109,13 @@ public class SearchHistoryCard extends AppCompatActivity {
         mAdapterSuggestion = new AdapterSuggestionSearch(this,list);
         recyclerSuggestion.setAdapter(mAdapterSuggestion);
 
+
+        btback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchHistoryCard.super.onBackPressed();
+            }
+        });
 
 
     }
