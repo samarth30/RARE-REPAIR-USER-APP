@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dell.rare.R;
+import com.example.dell.rare.UI.SharedPrefManager;
 import com.example.dell.rare.classes.ExampleItem;
 import com.example.dell.rare.classes.ExampleItemVerticle;
 
@@ -42,7 +43,10 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         String model = currentItem.getModel();
         String color = currentItem.getColor();
         String defect = currentItem.getDefect();
-         
+        SharedPrefManager sharedPrefManager = new SharedPrefManager(mContext);
+        holder.name.setText(sharedPrefManager.loadName());
+        holder.number.setText(sharedPrefManager.loadNumber());
+
         holder.completed.setText(completed);
         holder.model.setText(model);
         holder.brand.setText(brand);
@@ -59,7 +63,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     public class ExampleViewHolder extends RecyclerView.ViewHolder{
 
 
-        public TextView completed,model,brand,color,defect;
+        public TextView completed,model,brand,color,defect,name,number;
         public View view;
         public ExampleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,6 +73,8 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
             color = itemView.findViewById(R.id.textView555);
             defect = itemView.findViewById(R.id.textView666);
             view = itemView.findViewById(R.id.view);
+            name = itemView.findViewById(R.id.namemain);
+            number = itemView.findViewById(R.id.numbermain);
         }
     }
 }
