@@ -63,14 +63,17 @@ public class FinalPage extends AppCompatActivity {
         modelP = getIntent().getExtras().getString("model");
         colorP = getIntent().getExtras().getString("color");
         defectsP = getIntent().getExtras().getString("defects");
-        nameP = getIntent().getExtras().getString("name");
+        SharedPrefManager sharedPrefManager = new SharedPrefManager(FinalPage.this);
+        nameP = sharedPrefManager.loadName();
+        numberP = sharedPrefManager.loadNumber();
+
 
         brand.setText(brandP);
         model.setText(modelP);
         color.setText(colorP);
         defects.setText(defectsP);
         name.setText(nameP);
-
+        number.setText(numberP);
 
 
         submit.setOnClickListener(new View.OnClickListener() {
