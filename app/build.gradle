@@ -45,7 +45,7 @@ dependencies {
 
     implementation "com.airbnb.android:lottie:3.2.2"
 
-    compile( 'com.github.thekhaeng:pushdown-anim-click:1.1.1' ){
+    compile('com.github.thekhaeng:pushdown-anim-click:1.1.1') {
         exclude group: 'com.android.support'
     }
 

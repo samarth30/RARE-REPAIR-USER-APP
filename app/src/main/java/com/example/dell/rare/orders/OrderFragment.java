@@ -158,7 +158,7 @@ public class OrderFragment extends Fragment {
                     JSONArray jsonArray = new JSONArray(response);
 
                     int x = jsonArray.length() - 1;
-                    for (int i = x; i >= 0; i--) {
+                    for (int i = x; i >= x-2; i--) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                         String completed = jsonObject.getString("completed");

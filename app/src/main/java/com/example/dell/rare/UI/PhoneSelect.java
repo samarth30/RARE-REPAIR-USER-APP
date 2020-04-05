@@ -28,10 +28,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.dell.rare.Adapter.AutoCompleteCountryAdapter;
 import com.example.dell.rare.Adapter.BrandAdapter;
+import com.example.dell.rare.Adapter.PhoneAdapter;
 import com.example.dell.rare.Adapter.RecyclerItemClickListener;
 import com.example.dell.rare.R;
 import com.example.dell.rare.classes.CountryItem;
 import com.example.dell.rare.classes.ExampleItem;
+import com.example.dell.rare.classes.search;
+import com.example.dell.rare.utils.Tools;
+import com.example.dell.rare.widget.SpacingItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,9 +49,9 @@ import java.util.Map;
 public class PhoneSelect extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ArrayList<ExampleItem> list;
+    ArrayList<search> list;
     ProgressBar progressBar;
-    BrandAdapter adapter;
+    PhoneAdapter adapter;
     String modelsapi = "https://samarth-rare-app.herokuapp.com/models";
     RequestQueue requestQueue;
     TextView BrandTextView;
@@ -56,14 +60,16 @@ public class PhoneSelect extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_select);
-        list = new ArrayList<ExampleItem>();
+        list = new ArrayList<search>();
         progressBar = findViewById(R.id.progressBarPhoneSelect);
         progressBar.setVisibility(View.VISIBLE);
         parseData();
         recyclerView = findViewById(R.id.recyclerViewphone);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this,3));
-        adapter = new BrandAdapter(this,list);
+        recyclerView.addItemDecoration(new SpacingItemDecoration(3, Tools.dpToPx(this,2), true));
+        recyclerView.setHasFixedSize(true);
+        adapter = new PhoneAdapter(this,list);
         recyclerView.setAdapter(adapter);
         BrandTextView = findViewById(R.id.textViewphone);
 
@@ -74,13 +80,16 @@ public class PhoneSelect extends AppCompatActivity {
                 new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        ExampleItem currentItem = list.get(position);
-                        Intent intent = new Intent(PhoneSelect.this, FinalPage.class);
-                        intent.putExtra("brand",brandname);
-                        intent.putExtra("model",currentItem.getTitle());
-                        intent.putExtra("color","black");
-                        intent.putExtra("defects","screen");
-                        intent.putExtra("name","samarth");
+                        search currentItem = list.get(position);
+                        Intent intent = new Intent(PhoneSelect.this, Color.class);
+                        intent.putExtra("brand",currentItem.getBrand());
+                        intent.putExtra("model",currentItem.getModel());
+                        intent.putExtra("color1",currentItem.getColor1());
+                        intent.putExtra("color2",currentItem.getColor2());
+                        intent.putExtra("color3",currentItem.getColor3());
+                        intent.putExtra("color4",currentItem.getColor4());
+                        intent.putExtra("color5",currentItem.getColor5());
+                        intent.putExtra("image",currentItem.getImage());
                         startActivity(intent);
                     }
                 })
@@ -101,9 +110,15 @@ public class PhoneSelect extends AppCompatActivity {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String brand = jsonObject.getString("brand");
                             String model = jsonObject.getString("model");
-                            String image = jsonObject.getString("modelImgUrl");
-                            String image1 = "https://samarth-rare-app.herokuapp.com/" + image;
-                            list.add(new ExampleItem(model, image1));
+                            String color1 = jsonObject.getString("color1");
+                            String color2 = jsonObject.getString("color2");
+                            String color3 = jsonObject.getString("color3");
+                            String color4 = "";
+                            String color5 = "";
+                            String suggestion = jsonObject.getString("brandmodel");
+                            String id = jsonObject.getString("_id");
+                            String image1 = "https://samarth-rare-app.herokuapp.com/modelss/" + id;
+                            list.add(new search(suggestion,brand,model,color1,color2,color3,color4,color5, image1));
                         }
                     }
                     adapter.notifyDataSetChanged();

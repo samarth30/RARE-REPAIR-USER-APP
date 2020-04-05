@@ -1,30 +1,30 @@
 package com.example.dell.rare.Adapter;
 
 import android.content.Context;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.dell.rare.R;
 import com.example.dell.rare.classes.ExampleItem;
+import com.example.dell.rare.classes.search;
 
 import java.util.ArrayList;
 
 // playlist adapter
-public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ExampleViewHolder> {
+public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.ExampleViewHolder> {
 
     private Context mContext;
-    private ArrayList<ExampleItem> mExampleList;
+    private ArrayList<search> mExampleList;
     RequestOptions options;
-    public BrandAdapter(Context context, ArrayList<ExampleItem> exampleList){
+    public PhoneAdapter(Context context, ArrayList<search> exampleList){
         mContext = context;
         mExampleList = exampleList;
 
@@ -35,15 +35,15 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ExampleViewH
     @NonNull
     @Override
     public ExampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_product1,parent,false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.itemphone,parent,false);
         return new ExampleViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
-        ExampleItem currentItem = mExampleList.get(position);
-        String title = currentItem.getTitle();
-        String image = currentItem.getImageView();
+        search currentItem = mExampleList.get(position);
+        String title = currentItem.getModel();
+        String image = currentItem.getImage();
 
         holder.name.setText(title);
         Glide.with(mContext).load(image).apply(options).into(holder.imageView);

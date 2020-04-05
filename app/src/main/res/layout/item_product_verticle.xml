@@ -232,6 +232,7 @@
                                 android:textColor="@color/colorPrimary" />
 
                             <TextView
+                                android:id="@+id/namemain"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
@@ -241,6 +242,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/numbermain"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"

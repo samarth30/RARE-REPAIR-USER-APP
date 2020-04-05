@@ -7,48 +7,37 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="fontScale"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:configChanges="fontScale"
         android:theme="@style/AppTheme">
         <activity
             android:name=".UI.Master"
             android:label="@string/title_activity_master"
-            android:screenOrientation="userPortrait"
-            >
+            android:screenOrientation="userPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
         <activity
             android:name=".UI.signup"
-            android:screenOrientation="userPortrait">
-
-        </activity>
-        <activity android:name=".UI.Login"
-            android:screenOrientation="userPortrait"
-            >
-
-        </activity>
-        <activity android:name=".UI.animation"
-            android:screenOrientation="userPortrait">
-
-        </activity>
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".UI.Login"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".UI.animation"
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".UI.Color"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".UI.BrandSelect"
-            android:screenOrientation="userPortrait"
-            >
-
-        </activity>
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".UI.confirmed"
             android:screenOrientation="userPortrait" />
@@ -63,12 +52,10 @@
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".UI.Firstpage"
-            android:screenOrientation="userPortrait"></activity>
-
-        <activity android:name=".UI.SearchHistoryCard"
-            android:windowSoftInputMode="stateVisible"
-            >
-        </activity>
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".UI.SearchHistoryCard"
+            android:windowSoftInputMode="stateVisible" />
     </application>
 
 </manifest>

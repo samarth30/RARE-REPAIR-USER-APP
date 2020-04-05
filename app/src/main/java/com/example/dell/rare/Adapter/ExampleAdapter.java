@@ -42,7 +42,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         String model = currentItem.getModel();
         String color = currentItem.getColor();
         String defect = currentItem.getDefect();
-
+         
         holder.completed.setText(completed);
         holder.model.setText(model);
         holder.brand.setText(brand);
