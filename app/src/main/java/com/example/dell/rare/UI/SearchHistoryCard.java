@@ -74,8 +74,15 @@ public class SearchHistoryCard extends AppCompatActivity {
                     @Override
                     public void onItemClick(View view, int position) {
                         search currentItem = list.get(position);
-                        Intent intent = new Intent(SearchHistoryCard.this,PhoneSelect.class);
-                        intent.putExtra("brandname",currentItem.getSuggestion());
+                        Intent intent = new Intent(SearchHistoryCard.this, Color.class);
+                        intent.putExtra("brand",currentItem.getBrand());
+                        intent.putExtra("model",currentItem.getModel());
+                        intent.putExtra("color1",currentItem.getColor1());
+                        intent.putExtra("color2",currentItem.getColor2());
+                        intent.putExtra("color3",currentItem.getColor3());
+                        intent.putExtra("color4",currentItem.getColor4());
+                        intent.putExtra("color5",currentItem.getColor5());
+                        intent.putExtra("image",currentItem.getImage());
                         editsearch.setText(currentItem.getSuggestion());
                         startActivity(intent);
                     }
@@ -143,8 +150,17 @@ public class SearchHistoryCard extends AppCompatActivity {
 
                         for (int i = 0; i<jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            String brand = jsonObject.getString("brandmodel");
-                            list.add(new search(brand));
+                            String suggestion = jsonObject.getString("brandmodel");
+                            String brand = jsonObject.getString("brand");
+                            String model = jsonObject.getString("model");
+                            String color1 = jsonObject.getString("color1");
+                            String color2 = jsonObject.getString("color2");
+                            String color3 = jsonObject.getString("color3");
+                            String color4 = "";
+                            String color5 = "";
+                            String id = jsonObject.getString("_id");
+                            String image1 = "https://samarth-rare-app.herokuapp.com/modelss/" + id;
+                            list.add(new search(suggestion,brand,model,color1,color2,color3,color4,color5,image1));
                         }
                         mAdapterSuggestion.notifyDataSetChanged();
                         progress_search.setVisibility(View.GONE);
